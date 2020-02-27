@@ -34,12 +34,12 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
 .table-striped{
   border: 1px solid #cead78;
 }
 .table thead th{
-  color: #ffff !important;
+  color: #fbe0a5 !important;
 }
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
    background-color:#ffeab8;
