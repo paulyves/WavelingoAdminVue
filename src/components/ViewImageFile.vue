@@ -18,8 +18,9 @@ return{
 },
 methods:{
     viewImage(){
+      /**click event to view image */
         this.$emit('loadImage', this.comments);
-         
+         /**emitted 'loadImage' to account profile*/
     },
     
 }
