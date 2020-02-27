@@ -3,41 +3,54 @@
     <b-button variant="none" v-b-modal.modal size="lg" class="size">
       <i class="material-icons mt-1"></i>
     </b-button>
-    <b-modal ref="my-modal" hide-footer id="modal" title="Change Account Picture" header-class="color">
+    <b-modal
+      ref="my-modal"
+      hide-footer
+      id="modal"
+      title="Change Account Picture"
+      header-class="color"
+    >
       <div class="container">
         <div v-show="chooseImage">
-          <img src="https://thelightingagency.com/wp-content/uploads/2017/01/person-placeholder.jpg" class="img-responsive mt-4" height="150px" width="150px" alt />
+          <img
+            src="https://thelightingagency.com/wp-content/uploads/2017/01/person-placeholder.jpg"
+            class="img-responsive mt-4"
+            height="150px"
+            width="150px"
+            alt
+          />
         </div>
-       <div class="row mb-5">
-         <div class="col">
-          <b-form-file
-            class="custom-file-label"
-            id="imageFile"
-            @change="onFileChange"
-            accept="image/jpeg, image/png, image/gif"
-            placeholder="Choose an image"
-          ></b-form-file>
-         </div>
-       </div>
+        <div class="row mb-5">
+          <div class="col">
+            <b-form-file
+              class="custom-file-label"
+              id="imageFile"
+              @change="onFileChange"
+              accept="image/jpeg, image/png, image/gif"
+              placeholder="Choose an image"
+            ></b-form-file>
+          </div>
+        </div>
         <div v-show="uploadedImage">
           <div class="row">
-            <img :src="image" class="imgImg" width="150px" height="150px"/>
+            <img :src="image" class="imgImg" width="150px" height="150px" />
           </div>
         </div>
         <div class="row">
           <div class="col" v-show="invalidImage">
-            <center><b-alert variant="danger" show>Invalid file!</b-alert></center>
+            <center>
+              <b-alert variant="danger" show>Invalid file!</b-alert>
+            </center>
           </div>
         </div>
         <div class="mt-3">
-         
           <div v-show="uploadButton">
-            <b-button @click="uploadProf" variant="primary">Change Profile</b-button>
+            <b-button @click="uploadProf" variant="primary"
+              >Change Profile</b-button
+            >
           </div>
         </div>
-     
       </div>
-      
     </b-modal>
   </div>
 </template>
@@ -46,13 +59,13 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "changeAvatarModal",
-  props:["invalidImage"],
+  props: ["invalidImage"],
   data() {
     return {
       image: "",
       chooseImage: true,
       uploadedImage: false,
-      uploadButton: false,
+      uploadButton: false
     };
   },
   computed: {
@@ -67,35 +80,37 @@ export default {
     ...mapActions(["loadProfile"]),
 
     uploadProf() {
+      /**event click for uploading a profile */
       let formData = new FormData();
       let file = document.querySelector("#imageFile");
-      // let fileElement = document.getElementById("imageFile");
-      // let fileExtension = "";
+
       formData.append("id", this.getAccountId);
+      /**@params id = checks the account id of user/admin */
       formData.append("profilePicture", file.files[0]);
+      /**@params profilePicture = key for selecting a files */
+
       this.$emit("addProf", formData);
-      this.$refs['my-modal'].hide();
- this.chooseImage = true;
- this.uploadedImage = false;
- this.uploadButton = false;
- this.invalidImage = false;
-      
-      
-      
-     
+      this.$refs["my-modal"].hide();
+      this.chooseImage = true;
+      this.uploadedImage = false;
+      this.uploadButton = false;
+      this.invalidImage = false;
     },
 
     onFileChange(e) {
+      /**click event for selecting an image */
+      console.log(e);
       var fileReader = new FileReader();
       fileReader.readAsDataURL(e.target.files[0]);
       fileReader.onload = e => {
         this.image = e.target.result;
+        /**@params this.image = for displaying a selected image.*/
       };
       this.createImage(e.target.files[0]);
       this.uploadedImage = true;
       this.chooseImage = false;
       this.uploadButton = true;
-       this.invalidImage = false;
+      this.invalidImage = false;
     },
     createImage(file) {
       var reader = new FileReader();
@@ -103,6 +118,7 @@ export default {
 
       reader.onload = e => {
         vm.image = e.target.result;
+        /**@params this.image = for displaying a selected image.*/
       };
       reader.readAsDataURL(file);
     }
@@ -111,10 +127,10 @@ export default {
 </script>
 
 <style scoped>
-p{
+p {
   color: red;
 }
-.color{
+.color {
   background: #875846;
 }
 .size {
@@ -137,19 +153,17 @@ img {
   width: 100%;
   /* margin: auto; */
 }
-.custom-file-label::after{
+.custom-file-label::after {
   color: #875846;
   background: #ffecc2;
   border-color: #ffecc2;
   font-weight: bold;
-
 }
-.custom-file-label{
+.custom-file-label {
   color: #beaa98;
   border-color: #e2c997;
-
 }
-.file{
+.file {
   width: 50%;
 }
 </style>
