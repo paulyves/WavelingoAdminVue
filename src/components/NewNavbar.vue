@@ -40,13 +40,21 @@
             <center>{{ fullName }}</center>
           </li>
           <li>
-            <router-link to="/homeSuperUser" class="btn py-3 mt-5" v-if="this.userType == 'super_admin'">
+            <router-link
+              to="/homeSuperUser"
+              class="btn py-3 mt-5"
+              v-if="this.userType == 'super_admin'"
+            >
               <i class="material-icons">
                 devices
               </i>
               <span>Devices</span>
             </router-link>
-            <router-link class="btn py-3 mt-5" to="/home" v-if="this.userType !== 'super_admin'">
+            <router-link
+              class="btn py-3 mt-5"
+              to="/home"
+              v-if="this.userType !== 'super_admin'"
+            >
               <i class="material-icons">
                 devices
               </i>
@@ -54,13 +62,13 @@
             </router-link>
           </li>
           <li>
-            <div v-if="this.userType !== 'super_admin' ">
+            <div v-if="this.userType !== 'super_admin'">
               <router-link to="/accountProfile" class="btn py-3">
                 <i class="material-icons">account_circle</i>
                 <span>{{ fullName }}</span>
               </router-link>
             </div>
-            
+
             <div v-if="this.userType == 'super_admin'">
               <router-link to="/Accounts" class="btn py-3">
                 <i class="material-icons">account_circle</i>
@@ -69,13 +77,13 @@
             </div>
           </li>
           <li>
-            <div v-if="this.userType !== 'super_admin' ">
+            <div v-if="this.userType !== 'super_admin'">
               <router-link to="/Support" class="btn py-3">
                 <i class="material-icons">contact_support</i>
                 <span>Support</span>
               </router-link>
             </div>
-            <div v-if="this.userType == 'super_admin' ">
+            <div v-if="this.userType == 'super_admin'">
               <router-link to="/SupportInbox" class="btn py-3">
                 <i class="material-icons">contact_support</i>
                 <span>Support Inbox</span>
@@ -83,7 +91,7 @@
             </div>
           </li>
           <li>
-            <div v-if="this.userType == 'super_admin' ">
+            <div v-if="this.userType == 'super_admin'">
               <router-link to="/Auditlog" class="btn py-3">
                 <i class="material-icons">
                   list_alt
@@ -112,7 +120,6 @@ export default {
     "avatarPath",
     "accountId",
     "userProfile"
-  
   ],
   data() {
     return {
@@ -126,29 +133,23 @@ export default {
       navProfile: ""
     };
   },
-computed:{
- ...mapGetters(["getUserId"]),
-},
+  computed: {
+    ...mapGetters(["getUserId"])
+  },
   mounted() {
-    if(this.userType == 'super_admin'){
-      this.nav().then(()=>{
-      this.loadProfile().then(response =>{
-      this.navProfile = response
-    })
-    })
+    if (this.userType == "super_admin") {
+      this.nav().then(() => {
+        this.loadProfile().then(response => {
+          this.navProfile = response;
+          /**@param navProfile = for displaying super admin and users profile in the navbar. */
+        });
+      });
     }
-    // else{
-    //   this.nav().then(()=>{
-    //   this.loadProfile().then(response =>{
-    //   this.userProfile = response
-    // })
-    // })
-    // }
-    
   },
   methods: {
-    ...mapActions(["loadProfile","nav"]),
+    ...mapActions(["loadProfile", "nav"]),
     logout() {
+      /**click event for logging out, after clicked users will be directed to login */
       this.$store.dispatch("logout").then(() => {
         this.$router.push({ path: "/login" });
       });
@@ -169,6 +170,9 @@ computed:{
   z-index: 5;
   background: #985b47;
   color: rgba(255, 255, 255, 0.7);
+  overflow-x: hidden;
+  /* overflow-y: scroll; */
+  -ms-overflow-style: none;
 }
 
 .sideBar-nav:hover,
@@ -210,7 +214,6 @@ span {
   color: grey;
 }
 @media (min-width: 42em) {
-
   .sideBarToggle {
     width: 4em;
   }
