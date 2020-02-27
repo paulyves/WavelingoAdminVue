@@ -30,6 +30,8 @@ export default {
         string: this.editInvoice,
         type: this.type
       });
+      /**emitted a param for editing a invoice detail */
+
     }
   }
 };
