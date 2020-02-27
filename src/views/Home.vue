@@ -106,7 +106,7 @@ export default {
           if (objVal.search != null) {
             this.showBack = true;
           }
-          //  this.showBack = false;
+           this.showBack = false;
           this.checkAlways = false;
           this.notShowtable = true;
         }
