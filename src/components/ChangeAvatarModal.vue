@@ -8,7 +8,6 @@
       hide-footer
       id="modal"
       title="Change Account Picture"
-      header-class="color"
     >
       <div class="container">
         <div v-show="chooseImage">
@@ -127,12 +126,6 @@ export default {
 </script>
 
 <style scoped>
-p {
-  color: red;
-}
-.color {
-  background: #875846;
-}
 .size {
   width: 100%;
   height: 50%;
