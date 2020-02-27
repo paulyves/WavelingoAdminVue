@@ -1,39 +1,47 @@
 <template>
-<div class="Register">
-  <div class="container">
-  <div class="row">
-    <div class="col"></div>
-     
-<form id="form" method="post" class="border shadow shadow-sm">
-      <div class="container">
-       
-        <div class="row">
-          <div class="col">
-            <div class="avatar-wrapper">
-              <div v-show="browseImage">
-              <img
-                :src=" profile || 'https://thelightingagency.com/wp-content/uploads/2017/01/person-placeholder.jpg' "
-                class="img-responsive mt-4"
-                alt
-                height="150px"
-                width="150px"
-              />
-              
-            </div>
-              <div class="upload-button">
-                <ChangeAvatar class="file-upload size" @addProf="newProfile" :invalidImage="invalidProf"/>
+  <div class="Register">
+    <div class="container">
+      <div class="row">
+        <div class="col"></div>
+
+        <form id="form" method="post" class="border shadow shadow-sm">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <div class="avatar-wrapper">
+                  <div v-show="browseImage">
+                    <img
+                      :src="
+                        profile ||
+                          'https://thelightingagency.com/wp-content/uploads/2017/01/person-placeholder.jpg'
+                      "
+                      class="img-responsive mt-4"
+                      alt
+                      height="150px"
+                      width="150px"
+                    />
+                  </div>
+                  <div class="upload-button">
+                    <ChangeAvatar
+                      class="file-upload size"
+                      @addProf="newProfile"
+                      :invalidImage="invalidProf"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            
-          </div></div>
             <div>
-<div class="row">
-          <div class="col">
-            
-            <center><b-alert variant="danger" v-show="invalidImg" show>Invalid file</b-alert></center>
-          </div>
-        </div>
-            <!-- <small>{{invalidImg}}</small> -->
+              <div class="row">
+                <div class="col">
+                  <center>
+                    <b-alert variant="danger" v-show="invalidImg" show
+                      >Invalid file</b-alert
+                    >
+                  </center>
+                </div>
+              </div>
+              <!-- <small>{{invalidImg}}</small> -->
             </div>
             <!-- <div v-show="chosenImage">
               <div class="row">
@@ -56,174 +64,265 @@
           ></b-form-file>
               </div>
             </div> -->
-            
-        
 
+            <div class="row mt-5 violet">
+              <div class="col-6 color">
+                <div
+                  class="form-group"
+                  v-bind:class="{ 'has-warning': attemptSubmit && missingName }"
+                >
+                  <input
+                    class="form-control"
+                    placeholder="First name"
+                    v-model="fname"
+                  />
 
-        <div class="row mt-5 violet">
-          <div class="col-6 color">
-            <div class="form-group" v-bind:class="{ 'has-warning': attemptSubmit && missingName }">
-              
-              <input class="form-control" placeholder="First name" v-model="fname" />
-              
-              <small>
-                <p class="text ml-4" v-if="attemptSubmit && missingName">First Name is required.</p>
-                <p class="text ml-4" v-show="jobLength == false">too long.</p>
-              </small>
-            </div>
-          </div>
-
-          <div class="col-6 color">
-            <div class="form-group" v-bind:class="{ 'has-warning': attemptSubmit && missingLname }">
-              
-              <input class="form-control" placeholder="Last name" v-model="lname" />
-              <small>
-                <p class="text ml-4" v-if="attemptSubmit && missingLname">Last Name is required.</p>
-              </small>
-            </div>
-          </div>
-        </div>
-
-        <div class="row violet">
-          <div class="col-6 color">
-            <div
-              class="form-group"
-              v-bind:class="{ 'has-warning': attemptSubmit && missingJobTitle }"
-            >
-            
-              <input class="form-control" placeholder="Job Title" v-model="jobTitle" />
-              <small>
-                <p class="text ml-4" v-if="attemptSubmit && missingJobTitle">Job Title is required.</p>
-              </small>
-            </div>
-          </div>
-
-          <div class="col-6 color">
-            <div class="form-group" v-bind:class="{ 'has-warning': attemptSubmit && missingEmail }">
-            
-              <input
-                type="email"
-                class="form-control"
-                placeholder="Billing Email"
-                v-model="billingEmail"
-              />
-              <small>
-                <p class="text ml-4" v-if="attemptSubmit && missingEmail">Billing Email is required.</p>
-              </small>
-            </div>
-          </div>
-        </div>
-
-        <div class="row violet">
-          <div class="col-6 color">
-            <div
-              class="form-group"
-              v-bind:class="{ 'has-warning': attemptSubmit && missingCompany }"
-            >
-             
-              <input class="form-control" placeholder="Company name" v-model="companyName" />
-              <small>
-                <p
-                  class="text ml-4"
-                  v-if="attemptSubmit && missingCompany"
-                >Company Name is required.</p>
-              </small>
-            </div>
-          </div>
-
-          <div class="col-6 color">
-            <div class="form-group" v-bind:class="{ 'has-warning': attemptSubmit && missingTax }">
-             
-              <input class="form-control" placeholder="Tax ID" v-model="taxId" />
-              <small>
-                <p class="text ml-4" v-if="attemptSubmit && missingTax">Tax ID is required.</p>
-              </small>
-            </div>
-          </div>
-        </div>
-
-        <div class="row violet">
-          <div class="col-6 color">
-            <div class="form-group" v-bind:class="{ 'has-warning': attemptSubmit && missingCity }">
-          
-              <input class="form-control" placeholder="City" v-model="city" />
-              <small>
-                <p class="text ml-4" v-if="attemptSubmit && missingCity">City is required.</p>
-              </small>
-            </div>
-          </div>
-
-          <div class="col-6 color">
-            <div
-              class="form-group"
-              v-bind:class="{ 'has-warning': attemptSubmit && missingStreet }"
-            >
-              
-              <input class="form-control" placeholder="Street" v-model="street" />
-              <small>
-                <p class="text ml-4" v-if="attemptSubmit && missingStreet">Street is required.</p>
-              </small>
-            </div>
-          </div>
-        </div>
-
-        <div class="row violet">
-          <div class="col-6 color">
-            <div
-              class="form-group"
-              v-bind:class="{ 'has-warning': attemptSubmit && missingCountry }"
-            >
-            
-              <input class="form-control" placeholder="Country" v-model="country" />
-              <small>
-                <p class="text ml-4" v-if="attemptSubmit && missingCountry">Country is required.</p>
-              </small>
-            </div>
-          </div>
-
-          <div class="col-6 color">
-            <div class="form-group" v-bind:class="{ 'has-warning': attemptSubmit && missingState }">
-              
-              <input class="form-control" placeholder="State" v-model="state" />
-              <small>
-                <p class="text ml-4" v-if="attemptSubmit && missingState">State is required.</p>
-              </small>
-            </div>
-          </div>
-        </div>
-
-        <div class="row violet">
-          <div class="col-6 color">
-            <div
-              class="form-group"
-              v-bind:class="{ 'has-warning': attemptSubmit && missingZipCode }"
-            >
-            
-              <input type="number" class="form-control" placeholder="ZipCode" v-model="zipCode" />
-              <small>
-                <p class="text ml-4" v-if="attemptSubmit && missingZipCode">ZipCode is required.</p>
-              </small>
-            </div>
-          </div>
-        </div>
-
-        <div id="formFooter">
-       
-            <div class="row mb-3">
-              <div class="col">
-              <b-button @click="back" class="registerButton float-right" type="submit">Back to login</b-button>
+                  <small>
+                    <p class="text ml-4" v-if="attemptSubmit && missingName">
+                      First Name is required.
+                    </p>
+                    <p class="text ml-4" v-show="jobLength == false">
+                      too long.
+                    </p>
+                  </small>
+                </div>
               </div>
-              <div class="col">
-              <b-button class="registerButton float-left" @click="validateForm">Submit</b-button>
+
+              <div class="col-6 color">
+                <div
+                  class="form-group"
+                  v-bind:class="{
+                    'has-warning': attemptSubmit && missingLname
+                  }"
+                >
+                  <input
+                    class="form-control"
+                    placeholder="Last name"
+                    v-model="lname"
+                  />
+                  <small>
+                    <p class="text ml-4" v-if="attemptSubmit && missingLname">
+                      Last Name is required.
+                    </p>
+                  </small>
+                </div>
               </div>
+            </div>
+
+            <div class="row violet">
+              <div class="col-6 color">
+                <div
+                  class="form-group"
+                  v-bind:class="{
+                    'has-warning': attemptSubmit && missingJobTitle
+                  }"
+                >
+                  <input
+                    class="form-control"
+                    placeholder="Job Title"
+                    v-model="jobTitle"
+                  />
+                  <small>
+                    <p
+                      class="text ml-4"
+                      v-if="attemptSubmit && missingJobTitle"
+                    >
+                      Job Title is required.
+                    </p>
+                  </small>
+                </div>
+              </div>
+
+              <div class="col-6 color">
+                <div
+                  class="form-group"
+                  v-bind:class="{
+                    'has-warning': attemptSubmit && missingEmail
+                  }"
+                >
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="Billing Email"
+                    v-model="billingEmail"
+                  />
+                  <small>
+                    <p class="text ml-4" v-if="attemptSubmit && missingEmail">
+                      Billing Email is required.
+                    </p>
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="row violet">
+              <div class="col-6 color">
+                <div
+                  class="form-group"
+                  v-bind:class="{
+                    'has-warning': attemptSubmit && missingCompany
+                  }"
+                >
+                  <input
+                    class="form-control"
+                    placeholder="Company name"
+                    v-model="companyName"
+                  />
+                  <small>
+                    <p class="text ml-4" v-if="attemptSubmit && missingCompany">
+                      Company Name is required.
+                    </p>
+                  </small>
+                </div>
+              </div>
+
+              <div class="col-6 color">
+                <div
+                  class="form-group"
+                  v-bind:class="{ 'has-warning': attemptSubmit && missingTax }"
+                >
+                  <input
+                    class="form-control"
+                    placeholder="Tax ID"
+                    v-model="taxId"
+                  />
+                  <small>
+                    <p class="text ml-4" v-if="attemptSubmit && missingTax">
+                      Tax ID is required.
+                    </p>
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="row violet">
+              <div class="col-6 color">
+                <div
+                  class="form-group"
+                  v-bind:class="{ 'has-warning': attemptSubmit && missingCity }"
+                >
+                  <input
+                    class="form-control"
+                    placeholder="City"
+                    v-model="city"
+                  />
+                  <small>
+                    <p class="text ml-4" v-if="attemptSubmit && missingCity">
+                      City is required.
+                    </p>
+                  </small>
+                </div>
+              </div>
+
+              <div class="col-6 color">
+                <div
+                  class="form-group"
+                  v-bind:class="{
+                    'has-warning': attemptSubmit && missingStreet
+                  }"
+                >
+                  <input
+                    class="form-control"
+                    placeholder="Street"
+                    v-model="street"
+                  />
+                  <small>
+                    <p class="text ml-4" v-if="attemptSubmit && missingStreet">
+                      Street is required.
+                    </p>
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="row violet">
+              <div class="col-6 color">
+                <div
+                  class="form-group"
+                  v-bind:class="{
+                    'has-warning': attemptSubmit && missingCountry
+                  }"
+                >
+                  <input
+                    class="form-control"
+                    placeholder="Country"
+                    v-model="country"
+                  />
+                  <small>
+                    <p class="text ml-4" v-if="attemptSubmit && missingCountry">
+                      Country is required.
+                    </p>
+                  </small>
+                </div>
+              </div>
+
+              <div class="col-6 color">
+                <div
+                  class="form-group"
+                  v-bind:class="{
+                    'has-warning': attemptSubmit && missingState
+                  }"
+                >
+                  <input
+                    class="form-control"
+                    placeholder="State"
+                    v-model="state"
+                  />
+                  <small>
+                    <p class="text ml-4" v-if="attemptSubmit && missingState">
+                      State is required.
+                    </p>
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="row violet">
+              <div class="col-6 color">
+                <div
+                  class="form-group"
+                  v-bind:class="{
+                    'has-warning': attemptSubmit && missingZipCode
+                  }"
+                >
+                  <input
+                    type="number"
+                    class="form-control"
+                    placeholder="ZipCode"
+                    v-model="zipCode"
+                  />
+                  <small>
+                    <p class="text ml-4" v-if="attemptSubmit && missingZipCode">
+                      ZipCode is required.
+                    </p>
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div id="formFooter">
+              <div class="row mb-3">
+                <div class="col">
+                  <b-button
+                    @click="back"
+                    class="registerButton float-right"
+                    type="submit"
+                    >Back to login</b-button
+                  >
+                </div>
+                <div class="col">
+                  <b-button
+                    class="registerButton float-left"
+                    @click="validateForm"
+                    >Submit</b-button
+                  >
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
-
-    </form>
     </div>
-  </div>
-   
   </div>
 </template>
 
@@ -254,9 +353,8 @@ export default {
       attemptSubmit: false,
       jobLength: true,
       invalidImg: false,
-      invalidProf:false,
-      profile: '',
-
+      invalidProf: false,
+      profile: ""
     };
   },
   computed: {
@@ -302,71 +400,44 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["addInvoiceDetail", "changeProfile", "nav","loadProfile"]),
-    //  uploadProf(){
-    //   let formData = new FormData();
-    //   let file = document.querySelector("#imageFile");
-    //   formData.append("id", this.getAccountId);
-    //   formData.append("profilePicture", file.files[0]);
-
-    //   this.changeProfile(formData).then(response =>{
-    //     if(response.profilePicture == "uploaded"){
-    //      console.log(response)
-    //     }
-    //   })
-    // },
+    ...mapActions(["addInvoiceDetail", "changeProfile", "nav", "loadProfile"]),
     newProfile(formData) {
+      /**click event for uploading a profile */
       let fileElement = document.getElementById("imageFile");
       let fileExtension = "";
-      if(fileElement.value.lastIndexOf(".") > 0){
-          fileExtension = fileElement.value.substring(fileElement.value.lastIndexOf(".") + 1, fileElement.value.lenght);
-        }
-        if(fileExtension.toLowerCase() == "jpg" || fileExtension.toLowerCase() == "jpeg" || fileExtension.toLowerCase() == "png" ){
-          this.changeProfile(formData).then(response => {
-        if (response.profilePicture == "uploaded") {
-
-          this.loadProfile().then(response => {
-            this.profile = response
-            this.invalidImg = false
-          });
-        }
-      });
-          console.log(formData)
-          return true;
-        }else{
-          console.log("invalidImg")
-          this.invalidImg = true
-          return false;
-        }
-        
-      
+      if (fileElement.value.lastIndexOf(".") > 0) {
+        fileExtension = fileElement.value.substring(
+          fileElement.value.lastIndexOf(".") + 1,
+          fileElement.value.lenght
+        );
+      }
+      if (
+        fileExtension.toLowerCase() == "jpg" ||
+        fileExtension.toLowerCase() == "jpeg" ||
+        fileExtension.toLowerCase() == "png"
+      ) {
+        this.changeProfile(formData).then(response => {
+          if (response.profilePicture == "uploaded") {
+            this.loadProfile().then(response => {
+              this.profile = response;
+              /**
+               * @param this.profile = display uploaded image.
+               */
+              this.invalidImg = false;
+            });
+          }
+        });
+        return true;
+      } else {
+        this.invalidImg = true;
+        /**
+         * @param this.invalidImg = will display 'Invalid file' if file extension is not equal in the condition.
+         */
+        return false;
+      }
     },
-    // onFileChange(e) {
-    //   var fileReader = new FileReader();
-    //   console.log(e.target.files[0]);
-    //   fileReader.readAsDataURL(e.target.files[0]);
-    //   fileReader.onload = e => {
-    //     this.image = e.target.result;
-    //     this.chosenImage = true;
-    //   };
-    //   this.createImage(e.target.files[0]);
-    //   this.chosenImage = true;
-    //   this.browseImage = false;
-    //   this.btn = true;
-    //   this.invalidImg = false;
-    // },
-
-    // createImage(file) {
-    //   var reader = new FileReader();
-    //   var vm = this;
-
-    //   reader.onload = e => {
-    //     vm.image = e.target.result;
-    //   };
-    //   reader.readAsDataURL(file);
-    // },
-
     validateForm: function() {
+      /**created a condition if params is greater than 32 */
       if (this.fname.length > 32) {
         console.log("tuLong");
       }
@@ -414,6 +485,7 @@ export default {
         this.missingStreet ||
         this.missingCompany
       )
+      /**condition if the fields are empty */
         event.preventDefault();
       else {
         const detail = {
@@ -430,99 +502,36 @@ export default {
           state: this.state,
           zipcode: this.zipCode
         };
-        let invalidError = this.invalidImg
-        if(invalidError == true){
-          console.log('dont save')
-        }else{
+        let invalidError = this.invalidImg;
+        if (invalidError == true) {
+          console.log();
+        } else {
           this.addInvoiceDetail(detail).then(response => {
-          if (response.add == "Success") {
-            console.log()
-            this.$router.push({ path: "/home" });
-          }
+            if (response.add == "Success") {
+              /**if registered successfully users will be directed to 'Home' */
+              this.$router.push({ path: "/home" });
+            }
           }); 
-          console.log(detail)
         }
-         
-        
-         
-        // let formData = new FormData();
-        // let file = document.querySelector("#imageFile");
-        // let fileElement = document.getElementById("imageFile");
-        // let fileExtension = "";
-          
-        //  formData.append("id", this.getAccountId);
-        // formData.append("profilePicture", file.files[0]);
-        // if(fileElement.value.lastIndexOf(".") > 0){
-        //   fileExtension = fileElement.value.substring(fileElement.value.lastIndexOf(".") + 1, fileElement.value.lenght);
-        // }
-        // if(fileExtension.toLowerCase() == "jpg" || fileExtension.toLowerCase() == "jpeg" || fileExtension.toLowerCase() == "png" ){
-        //   this.addInvoiceDetail(detail).then(response => {
-        //   if (response.add == "Success") {
-        //     console.log()
-        //     this.$router.push({ path: "/home" });
-        //   }
-        //   }); 
-        //   this.changeProfile(formData)
-        //   console.log(formData)
-        //   return true;
-        // }
-//         else if(detail){
-//  this.addInvoiceDetail(detail).then(response => {
-//           if (response.add == "Success") {
-//             console.log()
-//             this.$router.push({ path: "/home" });
-//           }
-//           }); 
-//           console.log(detail)
-//         }
-
-        // else{
-        //  this.invalidImg = true
-        //  this.chosenImage = false
-        //    console.log("invalidImg")
-        //   return false;
-        // }
-        
-
-
-
-        // formData.append("id", this.getAccountId);
-        // formData.append("profilePicture", file.files[0]);
-
-       
-        // this.addInvoiceDetail(detail).then(response => {
-        //   if (response.add == "success") {
-        //     this.$router.push({ path: "/home" });
-        //   }
-        //   console.log(response);
-        //     if (this.getUserType === "super_admin") {
-        //       this.$router.push({
-        //         path: "/HomeSuperUser"
-        //       });
-        //     } else {
-          
-        //     }
-        //   });
-        // });
       }
     },
     back() {
+      /**
+       * click event in logging out.
+       */
       this.$store.dispatch("logout").then(() => {
         this.$router.push({ path: "/login" });
-    })
+      });
     }
   },
   mounted() {
     this.nav();
-    // this.loadProfile().then(response => {
-    //   this.profile = response;
-    // });
   }
 };
 </script>
 
 <style scoped>
-b-alert{
+b-alert {
   width: 20px;
 }
 .border {
@@ -531,7 +540,7 @@ b-alert{
   margin-top: 10%;
   border-radius: 10px;
 }
-.form-control::placeholder{
+.form-control::placeholder {
   color: #8b5e4e;
 }
 
@@ -551,32 +560,29 @@ img {
   margin-bottom: 10px;
   margin-top: 20px;
 }
-.custom-file-label::after{
+.custom-file-label::after {
   color: #875846;
   background: #ffecc2;
   border-color: #ffecc2;
   font-weight: bold;
-
 }
-.custom-file-label{
+.custom-file-label {
   color: #beaa98;
   border-color: #e2c997;
   font-size: 15px;
   float: left;
-
 }
 
-.registerButton{
+.registerButton {
   color: #edcc97;
   background: #875846;
-
 }
-.registerButton:hover{
+.registerButton:hover {
   background: #875846;
   color: #edcc97;
 }
-.Register{
-  background-color:#aba18d;
+.Register {
+  background-color: #aba18d;
   height: 100vh;
 }
 /* .container{
@@ -586,9 +592,9 @@ img {
   position: relative;
   /* height: 150px;
   width: 150px; */
-  /* box-shadow: 1px 1px 10px -5px black;
+/* box-shadow: 1px 1px 10px -5px black;
   transition: all 0.3s ease;
-} */ 
+} */
 .avatar-wrapper:hover {
   transform: scale(1.05);
   cursor: pointer;
@@ -621,8 +627,7 @@ img {
 .avatar-wrapper .upload-button:hover {
   opacity: 0.9;
 }
-.size{
+.size {
   height: 200%;
-
 }
 </style>

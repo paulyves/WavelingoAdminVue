@@ -173,7 +173,6 @@ export default {
       commentImg: "",
       commentsArray: [],
 
-   //   commentss: this.getComment
       
 
     };
@@ -222,15 +221,21 @@ export default {
 
     
     toggleMessage(){
+      /**click event for viewing previous messages. */
          this.showPrevData();
     },
-    viewImage(comment){   
+    viewImage(comment){ 
+      /**
+       * click event modal in viewing the uploaded image. */  
      this.fileDownload(comment).then(response =>{
        let reader = new window.FileReader();
           reader.readAsDataURL(response);
           reader.onload = () => {
             let imageDataUrl = reader.result;
             this.commentImg = imageDataUrl;
+            /**
+             * @param this.commentImg = display photo.
+             */
           };
 
           
@@ -238,6 +243,9 @@ export default {
 
     },
     isPhoto(string) {
+      /**
+       * isPhoto = display if uploaded file extension is jpg/jpeg/png.
+       */
       let fileExtension = "";
       if (string) {
         if (string.lastIndexOf(".") > 0) {
@@ -255,6 +263,9 @@ export default {
       );
     },
     clickDownload(comment) {
+      /**
+       * click event for downloading  a file.
+       */
       this.fileDownload(comment).then(response => {
          let fileUrl = window.URL.createObjectURL(new Blob([response]));
           let fileLink = document.createElement("a");
@@ -270,7 +281,9 @@ export default {
     },
 
     fileComment() {
-      //e.preventDefault();
+      /**
+       * click event for submitting
+       */
       let formData = new FormData();
       let file = document.querySelector("#fileUpload");
       let fileElement = document.getElementById("fileUpload");
@@ -287,6 +300,7 @@ export default {
         );
       }
       if(!this.comments && !this.commentFile){
+        /**checks if empty */
           console.log();
         }
      else if (
@@ -314,7 +328,6 @@ export default {
         this.sendFile(formData).then(response =>{
         if(response.comment == "added"){
             this.showAllComments();
-           // console.log('added')
         }
           });
         this.commentFile = null;
@@ -328,6 +341,7 @@ export default {
       }
     },
     onFileChange(e) {
+      /**click event for selecting a image/file. */
       let fileReader = new FileReader();
       fileReader.readAsDataURL(e.target.files[0]);
 
@@ -336,6 +350,7 @@ export default {
 
   },
   filters: {
+    /**formData = display when is the comment or a file been uploaded. */
     formatDate: function(value) {
       return moment(value).calendar();
     }

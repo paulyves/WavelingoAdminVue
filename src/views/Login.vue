@@ -99,10 +99,8 @@ export default {
 
   methods: {
     ...mapActions(["auth"]),
-    countDown(dismiss){
-      this.dismiss = dismiss
-    },
     login() {
+      /**click event in logging in */
       this.attemptSubmit = true;
        
       if(this.missingEMAIL || this.missingPassword)
@@ -122,10 +120,12 @@ export default {
       this.auth(data)
         .then(() => {
           if(this.getUserType == "super_admin"){
+            /**is user type is super admin they will direct to 'HomeSuperUser' */
             this.$router.push({
               name: "HomeSuperUser"
             });
           }else if(this.getFirstTime == true){
+            /**if users login for the first time they will be directed to Regisration of invoice details. */
                  this.$router.push({ path: "/register" });
           }else{
               this.$router.push({
@@ -137,9 +137,7 @@ export default {
           this.loading = false
           if(error.error == "Invalid credentials"){
             this.invalid = true
-            // console.log(error);
           }
-         // console.log(error)
         this.errors.push(error)
       
       
@@ -173,9 +171,6 @@ background: #995b46;
   margin-top: 10%;
   border-radius: 10px;
 }
-
-
-
 .txt {
   float: left;
 }

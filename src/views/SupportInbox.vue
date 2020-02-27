@@ -51,13 +51,11 @@
   </div>
 </template>
 <script>
-//import Navbar from "../components/Navbar";
 import newNavbar from "../components/NewNavbar.vue";
 import Inbox from "../components/Inbox";
 import { mapActions, mapGetters } from "vuex";
 export default {
   components: {
-    //Navbar,
     newNavbar,
     Inbox
   },
@@ -88,7 +86,6 @@ export default {
     this.loadProfile().then(response =>{
       this.profile = response
     })
-    // this.recieveMessage({ accountId: this.id });
   },
   methods: {
     ...mapActions([
@@ -100,9 +97,15 @@ export default {
     ]),
 
     viewMessage(readId) {
+      /** 
+       * click event to view the messages of the selected account id.
+      */
       this.readComment(readId);
     },
     markAsRead(id2) {
+      /**@param id2 = users account id
+       * click event for marking as read
+       */
       this.markAllAsRead(id2).then(response => {
         if (response.comment == "read") {
           this.supportInbox();
@@ -110,6 +113,9 @@ export default {
       });
     },
     markAsUnread(id) {
+      /**@param id = users account id
+       * click event for marking as unread
+       */
       this.markAllAsRead(id).then(response => {
         if (response.comment == "unread") {
           this.supportInbox();

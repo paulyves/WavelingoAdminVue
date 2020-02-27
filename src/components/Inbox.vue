@@ -69,16 +69,31 @@ export default {
   methods: {
     ...mapActions(["markAllAsRead"]),
     selectedMssg(i) {
+      /**click event for checking and unchecking a box.
+       * @param i = objects for users 
+       */
+      console.log(i)
       if (i.is_read == 0) {
+        /**
+         * @param i.is_read = if it's equal to 0 btn2 will show.
+         * @param this.btn2 = click event for mark as read.
+         */
         this.btn2 = true;
         this.btn1 = false;
       }
       if (i.is_read == 1) {
+        /**
+         * @param i.is_read = if it's equal to 1 btn1 will show.
+         * @param this.btn1 = click event for mark as unread.
+         */
         this.btn1 = true;
         this.btn2 = false;
       }
     },
     selectAll(i) {
+      /**
+       * click event for checking all the select boxes.
+       */
       this.selected = [];
 
       if (!this.allSelected) {
@@ -87,42 +102,70 @@ export default {
         }
       }
       if (this.allSelected == false) {
+        /**
+         * @param this.allSelected = if equals to false the btn1 and btn2 will show.
+         */
         this.btn1 = true;
         this.btn2 = true;
       } else if (this.allSelected == true) {
+        /**
+         * @param this.allSelected = if equals to true the btn1 and btn2 will hide.
+         */
         this.btn1 = false;
         this.btn2 = false;
       }
     },
     viewMessage(i) {
+      /**
+       * click event of viewing the selected message.
+       */
       let readId = {
         id: i.account_id
       };
       this.$emit("viewInbox", readId);
+      /**@param readId = account ID of the Selected Message.
+       * emitted 'viewInbox' to Support inbox
+       * will direct to convoinbox
+       */
       this.$router.push({ path: "/convoInbox/" + i.account_id });
     },
 
     read(i) {
+      /**
+       * click event for mark as read
+       */
+      console.log(i)
       let id2 = {
         marks: i,
         type: "read"
       };
       this.selected = [];
       this.$emit('mark', id2);
+      /**emitted 'mark' to Support Inbox */
       this.allSelected = false;
     },
 
     unread(i) {
+      /**
+       * click event for mark as unread
+       */
       let id = {
         marks: i,
         type: "unread"
       };
       this.selected = [];
       this.$emit('markAs', id);
+      /**emitted 'mark' to Support Inbox */
+
       this.allSelected = false;
     }
   },
   filters: {
+    /**
+     * truncate = function for messages you recieved is more than 30.
+     * formatDate = the date when the comment was created.
+     */
+    
     truncate: function(value) {
       if (value.length > 30) {
         value = value.substring(0, 65) + "...";
