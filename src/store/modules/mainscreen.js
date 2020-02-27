@@ -133,6 +133,7 @@ const actions = {
             commit("setDeviceAccount", response.data.data);
             commit("setPagination", setObj);
             resolve(response.data);
+            // console.log("callAccnt VUex",response.data.data);
             resolve(setObj);
           }
         })
@@ -145,6 +146,7 @@ const actions = {
   },
 
   callEditdevice({ commit }, data) {
+    return new Promise((resolve, reject) => {
     axios
       .put(process.env.VUE_APP_API_URL + "/device", {
         id: data.id,
@@ -162,11 +164,14 @@ const actions = {
       })
       .then(response => {
         commit("setDevicedit", response.data);
-        alert("Edit Succesfull");
+        resolve(response.data);
+        // console.log(response.data, "callEditdevice Vuex")
       })
       .catch(function(error) {
         console.log(error);
+        reject(error);
       });
+    });
   },
 
   callAccountName({ commit }, oBj) {

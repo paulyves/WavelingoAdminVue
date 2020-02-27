@@ -1,35 +1,31 @@
 <template>
   <div class="Home">
-   
-      <NewNavbar
-        :fullName="getFullName"
-        :accountName="getAccountName"
-        :userType="getUserType"
-        :userId="getUserId"
-        :avatarPath="getAvatarPath"
-        :AccountID="getAccountId"
-        :navProfile="profile"
-        :userProfile="userProf"
-      />
-    <div class="offset-md-2">
-
-    <b-container>
-      
-      <TableMainDevice
-        :userType="getUserType"
-        :eachAccount="getAccountId"
-        :vuexAccount="getAccount"
-        :notShow="notShowtable"
-        @emitAccount="vuexgetAccnt"
-        @emitEditDev="editDev"
-        :currentPage="getcurrentPageMain"
-        :rowMain="getRowsMain"
-        :perPage="getPerPageMain"
-        :showNoResult="checkAlways"
-        :showThis="showBack"
-        @emitBackAccount="backAccounts"
-      />
-    </b-container>
+    <NewNavbar
+      :fullName="getFullName"
+      :accountName="getAccountName"
+      :userType="getUserType"
+      :userId="getUserId"
+      :avatarPath="getAvatarPath"
+      :accountId="getAccountId"
+      :navProfile="profile"
+    />
+    <div class="offset-md">
+      <b-container>
+        <TableMainDevice
+          :userType="getUserType"
+          :eachAccount="getAccountId"
+          :vuexAccount="getAccount"
+          :notShow="notShowtable"
+          @emitAccount="vuexgetAccnt"
+          @emitEditDev="editDev"
+          :currentPage="getcurrentPageMain"
+          :rowMain="getRowsMain"
+          :perPage="getPerPageMain"
+          :showNoResult="checkAlways"
+          :showThis="showBack"
+          @emitBackAccount="backAccounts"
+        />
+      </b-container>
     </div>
   </div>
 </template>
@@ -45,7 +41,7 @@ export default {
 
   data() {
     return {
-      userProf:"",
+      userProf: "",
       inbox: false,
       showpath: false,
       showpathUA: false,
@@ -53,7 +49,7 @@ export default {
       notShowtable: true,
       checkAlways: false,
       showBack: false,
-      profile:""
+      profile: ""
     };
   },
 
@@ -79,17 +75,16 @@ export default {
   },
 
   methods: {
-    ...mapActions(["nav", "callAccnt", "callEditdevice","loadProfile"]),
+    ...mapActions(["nav", "callAccnt", "callEditdevice", "loadProfile"]),
 
-    backAccounts(objVal){
-       this.callAccnt(objVal)
-       .then(response => {
+    backAccounts(objVal) {
+      this.callAccnt(objVal).then(response => {
         if (response.data.length == 0) {
           this.checkAlways = true;
           this.notShowtable = false;
           this.showBack = true;
         } else {
-           this.showBack = false;
+          this.showBack = false;
           this.checkAlways = false;
           this.notShowtable = true;
         }
@@ -98,11 +93,6 @@ export default {
 
     editDev(receiveObj) {
       this.callEditdevice(receiveObj);
-      let requestObj = {
-        thisId: this.getAccountId,
-        page: receiveObj.currentPage
-      };
-      this.callAccnt(requestObj);
     },
 
     vuexgetAccnt(objVal) {
@@ -112,7 +102,11 @@ export default {
           this.notShowtable = false;
           this.showBack = true;
         } else {
-           this.showBack = true;
+         
+          if (objVal.search != null) {
+            this.showBack = true;
+          }
+          //  this.showBack = false;
           this.checkAlways = false;
           this.notShowtable = true;
         }
@@ -122,16 +116,15 @@ export default {
 
   mounted() {
     this.nav().then(() => {
-       this.loadProfile().then(response => {
-           this.userProf = response
-        
-    });
-        let requestObj = {
-          thisId: this.getAccountId
-        };
-        this.callAccnt(requestObj);
-      })
+      this.loadProfile().then(response => {
+        this.profile = response;
+      });
      
+      let requestObj = {
+        thisId: this.getAccountId
+      };
+      this.callAccnt(requestObj);
+    });
   }
 };
 </script>
@@ -140,5 +133,11 @@ export default {
 <style scoped>
 .co {
   border: solid 2px;
+}
+
+.Home {
+  background-color: #fff8da;
+  /* height: 142vh; */
+  height: 142vh;
 }
 </style>

@@ -7,17 +7,16 @@
           <h2>
             <b>Wave Lingo Admin</b>
           </h2>
+          <br />
         </b-col>
       </b-row>
       <b-row>
-        <b-col sm="4">
-         
-        </b-col>
+        <b-col sm="4"></b-col>
         <b-col sm="4">
           <InputSearch @searchSubmit="searchSubmit" :searchEmpty="inputValString" />
         </b-col>
-        <b-col sm="4">
-          <div class="pagination justify-content-end mt-5">
+        <b-col sm="4" style="padding-right: 0px;">
+          <div class="pagination justify-content-end mt">
             <b-pagination
               id="valBorder"
               v-model="currentMainPage"
@@ -39,7 +38,7 @@
       <p>&lt;&lt; Back to Home</p>
     </router-link>
 
-    <h4 v-show="showNoResult">Displaying Result For '{{inputValString}}'</h4>
+    <h4 v-show="showNoResult">Displaying Result For '{{searchKey}}'</h4>
     <b-table
       id="my-table"
       :items="vuexAccount"
@@ -90,20 +89,21 @@
     <h4 v-show="showNoResult">No Match Found . . .</h4>
 
     <b-modal
+      ref="modal-device"
       id="modal-device"
-      title="Edit Device "
-      @cancel="reset"
+      title="Edit Device"
+      @hidden="reset"
+      @cancel="closeFunc"
       @ok="handleOk"
       :header-class="['backHeaderColor', 'textColor']"
       :body-class="'bodyBackcolor'"
       :footer-class="['backHeaderColor', 'textColor']"
     >
-      >
-      <b-form-group label="Serial Number:" v-show="hideifUser">
+      <b-form-group label="MAC Address:" v-show="hideifUser">
         <b-form-input
-          v-model="selectedDevice.serial_number"
+          v-model="selectedDevice.mac_address"
           type="text"
-          placeholder="Enter Serial Number"
+          placeholder="Enter Mac Address"
         ></b-form-input>
       </b-form-group>
 
@@ -216,7 +216,7 @@ export default {
 
       fields: [
         { label: "Device ID", key: "device_id" },
-        { label: "Serial Number", key: "serial_number" },
+        { label: "MAC Address", key: "mac_address" },
         { label: "Device Name", key: "device_name" },
         { label: "Telephone Number", key: "tel_number" },
         { label: "Language", key: "language" },
@@ -227,7 +227,6 @@ export default {
         { label: "SIP Username", key: "sip_username" },
         { label: "Actions", key: "Action" }
       ],
-      
 
       TranslationOptions: [
         // { value: "Enable", text: "Enable" },
@@ -250,10 +249,20 @@ export default {
       ],
 
       optionsLanguage: [
-        { value: "Tagalog", text: "Tagalog" },
-        { value: "English", text: "Filipino" },
-        { value: "chinese", text: "chinese" },
-        { value: "spanish", text: "spanish" }
+        { value: "English", text: "English" },
+        { value: "Chinese", text: "Chinese" },
+        { value: "Japanese", text: "Japanese" },
+        { value: "German", text: "German" },
+        { value: "Spanish", text: "Spanish" },
+        { value: "French", text: "French" },
+        { value: "Italian", text: "Italian" },
+        { value: "Korean", text: "Korean" },
+        { value: "Russian", name: "Russian" },
+        { value: "Portuguese", text: "Portuguese" },
+        { value: "Hindi", text: "Hindi" },
+        { value: "Arabic", text: "Arabic" },
+        { value: "Thai", text: "Thai" },
+        { value: "Vietnamese", text: "Vietnamese" }
       ]
     }; //closing return
   },
@@ -274,15 +283,18 @@ export default {
   methods: {
     backMyaccount(objVal) {
       this.inputValString = objVal;
-      this.searchKey = "";
+      // this.searchKey = "";
       this.currentMainPage = 1;
       let requestObj = {
         thisId: this.eachAccount,
         page: 1
       };
 
-      
       this.$emit("emitBackAccount", requestObj);
+
+      if (this.showNoResult == false) {
+        this.searchKey = "";
+      }
     },
 
     searchSubmit(string) {
@@ -292,8 +304,8 @@ export default {
           thisId: this.eachAccount,
           page: this.currentMainPage
         };
-        
 
+        // this.$emit("inputSearch", this.searchKey)
         this.$emit("emitAccount", requestObj);
       } else {
         let obj = {
@@ -318,11 +330,15 @@ export default {
       this.$emit("emitAccount", resett);
     },
 
+    closeFunc() {
+      this.$refs["modal-device"].hide();
+    },
+
     handleOk() {
       let updateObj = {
         currentPage: this.currentMainPage,
         id: this.selectedDevice.device_id,
-        serial_number: this.selectedDevice.serial_number,
+        macAddress: this.selectedDevice.mac_address,
         deviceName: this.selectedDevice.device_name,
         telNumber: this.selectedDevice.tel_number,
         language: this.selectedDevice.language,
@@ -346,6 +362,7 @@ export default {
             search: this.searchKey,
             page: this.currentMainPage
           };
+
           this.$emit("emitAccount", obj);
         } else {
           let requestObj = {
@@ -356,6 +373,22 @@ export default {
 
           this.$emit("emitBackAccount", requestObj);
         }
+      }
+    },
+
+    showNoResult: {
+      handler: function(boleanVal) {
+        if (boleanVal == false && this.backMyaccount) {
+          // console.log(boleanVal,"watch bolean")
+          this.searchKey = "";
+        }
+        // this.searchKey = "";
+      }
+    },
+
+    currentPage: {
+      handler: function(currentVal) {
+        this.currentMainPage = currentVal;
       }
     }
   }, //End of watch
@@ -375,9 +408,11 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .TableMainDevice {
-  height: 100%;
-  background-color: #985b47;
+  /* height: 100%;
+  background-color: #985b47; */
+  /* background-color: #fff8da; */
+  /* height: 100%; */
 }
 </style>

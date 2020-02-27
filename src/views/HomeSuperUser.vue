@@ -368,7 +368,7 @@ export default {
   background-color: #fff8da;
 }
 
-.Home {
+/* .Home {
   background-color: #fff8da;
   height: 100vh;
 }
@@ -376,7 +376,7 @@ export default {
 .TableMainDevice {
   background-color: #fff8da;
   height: 100vh;
-}
+} */
 
 .Accounts {
   background-color: #fff8da;
