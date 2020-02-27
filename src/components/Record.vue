@@ -37,7 +37,9 @@ export default {
 <style >
 .table-striped{
   border: 1px solid #cead78;
-  
+}
+.table thead th{
+  color: #ffff !important;
 }
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
    background-color:#ffeab8;
