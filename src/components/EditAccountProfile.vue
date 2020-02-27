@@ -27,7 +27,7 @@ export default {
         this.editAccount = this.value;
       }
       this.$emit("submitText", { string: this.editAccount, type: this.type });
-      /**emitted a params for editing a account profile*/
+      /**emitted a param for editing a account profile*/
     }
   }
 };

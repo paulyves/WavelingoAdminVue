@@ -85,9 +85,9 @@ export default {
       let file = document.querySelector("#imageFile");
 
       formData.append("id", this.getAccountId);
-      /**@params id = checks the account id of user/admin */
+      /**@param id = checks the account id of user/admin */
       formData.append("profilePicture", file.files[0]);
-      /**@params profilePicture = key for selecting a files */
+      /**@param profilePicture = key for selecting a files */
 
       this.$emit("addProf", formData);
       this.$refs["my-modal"].hide();
@@ -104,7 +104,7 @@ export default {
       fileReader.readAsDataURL(e.target.files[0]);
       fileReader.onload = e => {
         this.image = e.target.result;
-        /**@params this.image = for displaying a selected image.*/
+        /**@param this.image = for displaying a selected image.*/
       };
       this.createImage(e.target.files[0]);
       this.uploadedImage = true;
@@ -118,7 +118,7 @@ export default {
 
       reader.onload = e => {
         vm.image = e.target.result;
-        /**@params this.image = for displaying a selected image.*/
+        /**@param this.image = for displaying a selected image.*/
       };
       reader.readAsDataURL(file);
     }
