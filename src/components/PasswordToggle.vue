@@ -39,6 +39,7 @@ export default {
   },
   methods: {
     toggle() {
+      /**click event to see password */
       if (!this.readonly) this.isToggle = !this.isToggle;
     }
   }
