@@ -74,22 +74,6 @@
                 </b-button>
               </div>
             </div>
-            <!-- <div class="row mb-5">
-<div class="col-2">
-                <div v-show="profUpdate == false && getUserType != 'user'">
-                  <b-button class="editButton float-right btn-sm" @click="profUpdate  = true">
-                    <i class="material-icons">edit</i>
-                  </b-button>
-                </div>
-              </div>
-              <div class="col-10">
-              </div>
-            </div>-->
-            <!-- <div class="row mb-5">
-             
-             
-            </div>-->
-
             <b-table-simple responsive class="table">
               <b-thead class="color">
                 <b-tr>
@@ -198,14 +182,6 @@
         </div>
         <div class="mt-5">
           <h4 class="float-left">Invoicing Details</h4>
-
-          <!-- <div class="col">
-          <div class="float-right" v-show="invoiceUpdate == false && getUserType != 'user'">
-            <b-button  class="editButton btn-sm" @click="invoiceUpdate  = true">
-              <i class="material-icons">edit</i>
-            </b-button>
-          </div>
-          </div>-->
           <br />
           <br />
           <div class="row mb-5">
@@ -463,11 +439,9 @@
 </template>
 
 <script>
-//import Navbar from "../components/Navbar.vue";
 import newNavbar from "../components/NewNavbar.vue";
 import Usertable from "../components/UserTable.vue";
 import ViewPicture from "../components/ViewPicture.vue";
-// import UpgradeModal from "../components/UpgradeModal.vue";
 import EditAccountProfile from "../components/EditAccountProfile.vue";
 import EditInvoiceDetail from "../components/EditInvoiceDetail.vue";
 import { mapGetters, mapActions } from "vuex";
@@ -477,7 +451,6 @@ export default {
   components: {
     newNavbar,
     Usertable,
-    // UpgradeModal,
     ChangeAvatar,
     EditAccountProfile,
     EditInvoiceDetail,
@@ -583,11 +556,13 @@ export default {
   mounted() {
     this.nav();
     if (this.id) {
+      /**@param this.id = selected account id of user in account page. */
       this.nav(this.id).then(() => {
     this.allAccount(this.id);
     this.userInvoiceDetails(this.id);
     this.loadClientProfile(this.id).then(response =>{
      this.clientProf = response 
+     /**@param this.clientProf = display users profile in accounts page. */
     });
       
       })
@@ -621,6 +596,7 @@ export default {
     ]),
 
     newProfile(formData) {
+      /**event click for uploading/updating a profile */
       let fileElement = document.getElementById("imageFile");
       let fileExtension = "";
       if (fileElement.value.lastIndexOf(".") > 0) {
@@ -629,6 +605,9 @@ export default {
           fileElement.value.lenght
         );
       }
+      /**
+       * created a condition if a selected file is equals only to jpg/jpeg/png  and it will uploaded successfully.
+       */
       if (
         fileExtension.toLowerCase() == "jpg" ||
         fileExtension.toLowerCase() == "jpeg" ||
@@ -636,28 +615,19 @@ export default {
       ) {
         this.changeProfile(formData).then(response => {
           if (response.profilePicture == "uploaded") {
+            /**condition if the response is successfully uploaded
+             * the displayed profile will changed in account profile and in the navbar.
+             */
             this.nav().then(() => {
               this.loadProfile().then(response => {
                 this.userProf = response;
-                //console.log(response)
+                /**@param this.userprof = for displaying a profile pic */
               });
-              // console.log(response, 'change')
             });
-            // this.loadProfile().then(response =>{
-            //       this.profile = response
-            //       this.invalidProf = false
-            //     })
-
-            // this.loadProfile().then(response => {
-            //   this.profile = response
-            //    this.invalidProf = false
-            // });
           }
         });
-        // console.log(formData)
         return true;
       } else {
-        // console.log("invalidImg")
         this.invalidProf = true;
         return false;
       }
@@ -722,10 +692,13 @@ export default {
       }
     },
     submit() {
+      /**click event for submitting/updating account profile
+       */
       const updateAccnt = {
         id: this.getAccountId
       };
-
+       /*  created a condition in every params if only one params is being edited or has been updated.
+       */
       if (this.contactName) {
         updateAccnt.contactNo = this.contactName;
       }
@@ -741,7 +714,6 @@ export default {
       if (this.defaultLanguage) {
         updateAccnt.defaultLanguage = this.defaultLanguage;
       }
-      //  console.log(updateAccnt);
       this.updateAccount(updateAccnt).then(response => {
         if (response.update == "Success") {
           this.profUpdate = false;
@@ -756,9 +728,13 @@ export default {
       this.invoiceUpdate = false;
     },
     updateInvoiceDetail() {
+      /**click event for submitting/updating invoice detail
+       */
       const updateDetails = {
         id: this.getInvoiceId
       };
+       /*  created a condition in every params if only one params is being edited or has been updated.
+       */
       if (this.fname) {
         updateDetails.firstName = this.fname;
       }
@@ -792,7 +768,6 @@ export default {
       if (this.country) {
         updateDetails.country = this.country;
       }
-      // console.log(updateDetails);
       this.updateInvoice(updateDetails).then(response => {
         if (response.update == "Success") {
           this.invoiceUpdate = false;
