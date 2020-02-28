@@ -8,6 +8,7 @@
       :avatarPath="getAvatarPath"
       :accountId="getAccountId"
       :navProfile="profile"
+      :userProfile="userProf"
     />
     <div class="offset-md">
       <b-container>
@@ -117,7 +118,7 @@ export default {
   mounted() {
     this.nav().then(() => {
       this.loadProfile().then(response => {
-        this.profile = response;
+        this.userProf = response;
       });
      
       let requestObj = {
