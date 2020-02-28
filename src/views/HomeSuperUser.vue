@@ -296,6 +296,7 @@ export default {
       this.callDelDevice(obj);
 
       if (this.getFindAccountId != 0) {
+        // console.log(this.getFindAccountId, "if")
         let requestRefreshDel = {
           thisId: this.getFindAccountId,
           page: this.getcurrentPageMain
@@ -305,15 +306,15 @@ export default {
         this.showtable = true;
         this.showFind = true;
 
-        alert("Delete SuccessFul");
+        // alert("Delete SuccessFul");
       } else {
-
+        // console.log(this.getFindAccountId, "else")
         this.callAllDevice();
         this.searchFlag = false;
         this.showtable = true;
         this.showFind = true;
 
-        alert("Delete SuccessFul");
+        // alert("Delete SuccessFul");
       }
     },
 
@@ -321,6 +322,7 @@ export default {
       this.callEditdevice(obj);
 
       if (this.getFindAccountId != 0) {
+        // console.log("editDev if");
         let requestRefreshEdit = {
           thisId: this.getFindAccountId,
           page: this.getcurrentPageMain
@@ -331,7 +333,8 @@ export default {
         this.showtable = true;
         this.showFind = true;
       } else {
-        this.callAllDevice();
+        // console.log("editDev else");
+        // this.callAllDevice();
         this.searchFlag = false;
         this.showtable = true;
         this.showFind = true;
@@ -340,6 +343,7 @@ export default {
 
     updateCanceledit(obj) {
       this.callAccnt(obj);
+      // console.log("callAccnt")
     }
   },
 

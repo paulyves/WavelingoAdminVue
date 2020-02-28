@@ -50,7 +50,7 @@
               >Displaying Result For '{{searchKey || inputVal}} '</h4>
             </b-col>
             <b-col sm="5">
-              <InputSearch @searchSubmit="searchSubmit" :searchEmpty="MakeBlank" />
+              <InputSearch @searchSubmit="searchSubmit" :searchEmpty="MakeBlank" :searchKey= "searchKey" />
             </b-col>
             <b-col sm="4" style="padding-right: 0px;">
               <div class="pagination justify-content-end">
@@ -177,9 +177,16 @@
           </template>
         </b-modal>
 
+
+
+
+
+
+
+
         <b-modal
           id="modal-Device"
-          title="Edit Device "
+          title="Editttt Device "
           @hidden="reset"
           @ok="handleOk"
           :header-class="['backHeaderColor', 'textColor']"
@@ -293,6 +300,16 @@
             </b-col>
           </b-row>
         </b-modal>
+
+
+
+
+
+
+
+
+
+
       </div>
     </div>
   </div>
@@ -419,6 +436,7 @@ export default {
       this.searchKey = stringVal;
 
       if (this.accntId != 0) {
+        console.log("test 0");
         this.currentPageall = 1;
         let findSearchDevice = {
           thisId: this.accntId,
@@ -427,6 +445,7 @@ export default {
         };
         this.$emit("findDeviceaccnt", findSearchDevice);
       } else {
+        console.log("test 1");
         this.currentPageall = 1;
         let requestSearch = {
           search: this.searchKey,
@@ -502,6 +521,7 @@ export default {
     },
 
     confirmYes() {
+      // console.log("confirmYes");
       let requestObj = {
         DevId: this.selectedDevice.device_id,
         UserId: this.userId
@@ -511,11 +531,42 @@ export default {
     },
 
     reset() {
-      let obj = {
+      // console.log("data", this.accntId, this.userId)
+      if (this.accntId == 0) {
+        // console.log("true")
+      //   let obj = {
+      //   thisId: this.userId,
+      //   page: this.currentPageall
+      // };
+      // this.$emit("emitCanseledit", obj);
+
+     
+
+            if (this.searchKey !="") {
+              // console.log("may laman yung")
+               let requestSearch = {
+              search: this.searchKey,
+              page: this.currentPageall
+            };
+            this.$emit("backDev", requestSearch);
+            } else {
+              // console.log("wala laman yung")
+               let requestObj = {
+              url: null,
+              page: this.currentPageall
+            };
+
+            this.$emit("findDev", requestObj);
+            }
+      } else {
+        // console.log("false")
+        let obj = {
         thisId: this.accntId,
         page: this.currentPageall
       };
       this.$emit("emitCanseledit", obj);
+        
+      }
     },
 
     handleOk(value) {
@@ -552,10 +603,10 @@ export default {
         if (valueObj == null) {
           this.currentPageall = 1;
         } else {
-        
-           if (this.accntId != 0 && this.searchKey.length ==0) {
-            let requestSearch = {
-              thisId: this.accntId,
+          if (this.accntId != 0 && this.searchKey.length ==0) {
+          // console.log("watch 0");
+             let requestSearch = {
+               thisId: this.accntId,
               search: this.searchKey,
               page: 0
             };
@@ -563,6 +614,7 @@ export default {
             this.$emit("findDeviceaccnt", requestSearch);
           }
            else if (this.searchKey != 0 && this.searchAccount == "") {
+          // console.log("watch 1");
             let requestSearch = {
               search: this.searchKey,
               page: 0
@@ -571,10 +623,11 @@ export default {
             this.$emit("backDev", requestSearch);
           }
            else if (
-            this.searchAccount != 0 &&
+             this.searchAccount != 0 &&
             this.searchKey != 0 &&
             this.accntId != 0
           ) {
+          // console.log("watch 2");
             let requestSearch = {
               thisId: this.accntId,
               search: this.searchKey,
@@ -583,6 +636,8 @@ export default {
             requestSearch.page = valueObj;
             this.$emit("findDeviceaccnt", requestSearch);
           } else {
+            // console.log("test watch else")
+            this.searchKey = "";
             let requestObj = {
               url: null,
               page: 0

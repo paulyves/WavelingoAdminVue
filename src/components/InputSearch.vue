@@ -14,7 +14,7 @@
 <script>
 export default {
   name: "InputSearch",
-  props: ["tab", "searchEmpty", "emptyInput"],
+  props: ["tab", "searchEmpty", "emptyInput", "searchKey"],
 
   data() {
     return {
@@ -48,7 +48,16 @@ export default {
           this.pick = "";
         }
       }
+    },
+
+    searchKey:{
+      handler: function (value) {
+        if (value !="") {
+          value = "";
+        }
+      }
     }
+    
   }
 };
 </script>
